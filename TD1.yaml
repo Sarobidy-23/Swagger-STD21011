@@ -1,0 +1,298 @@
+openapi: 3.0.1
+info:
+  title: STD21011 API
+  description: 'Global description of my API'
+  version: 1.0.0
+servers:
+ - url: https://STD21011.com
+tags: 
+ - name: Students
+   
+ - name: Courses
+paths:
+ /students:
+    get:
+      tags:
+        - Students
+      operationId: getStudents
+      summary: Get all students
+      description: Get all students with details
+      parameters : 
+        - name : page
+          in : query 
+          schema : 
+             type : integer
+      responses:
+        200: 
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Student'
+        400:
+          description: Bad request
+    post: 
+      tags:
+        - Students
+      operationId: createStudent
+      summary : Create new student
+      description: Create new student
+      requestBody:
+        description: Student to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudent'
+        required: true
+      responses:
+        200:
+          description: List of students
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        400:
+          description: Bad request
+    put :
+      tags :
+       - Students
+      summary : Update the information of the students
+      description: update the information
+      requestBody:
+       description : Student updated 
+       content : 
+        application/json :
+          schema :
+             $ref: '#/components/schemas/Student'
+      responses: 
+        202: 
+          description : Update succesful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        400: 
+          description : Bad request           
+      
+      
+ /students/{id}: 
+    get:
+      tags:
+        - Students
+      summary: Get a student by id
+      operationId: getStudent
+      description: Get a student by id with details
+      parameters :
+      - name : id
+        in : path
+        schema :
+          type : integer
+        required: true
+      responses:
+        200: 
+          description : Here's your student
+          content: 
+            application/json:
+                schema :
+                  type : array
+                  items :
+                    $ref: '#/components/schemas/Student'
+        400 : 
+          description: Bad request
+        404 : 
+          description : Entity not found
+    delete :
+      tags :
+      - Students
+      summary : Delete a student
+      operationId: delete
+      description : Delete a student by id
+      parameters :
+      - name : id
+        in : path
+        schema :
+          type : integer
+        required: true
+      responses :
+        200 : 
+          description : Delete succesfully
+        400 : 
+          description : Bad request
+        404 : 
+          description : Entity not found
+    patch: 
+      tags: 
+        -  Students
+      summary: Update information
+      operationId: patchStudent
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Student"
+            examples: 
+              changeName: 
+                summary: Change name
+                description: How to change name and what it does
+                value: 
+                  id: 1
+                  name: "New name"
+              change_phone_number:
+                summary: Change phone number
+                value: 
+                  id: 1
+                  phoneNumber: [{"country_code": "+261", "number": "36 064 82"}]
+                    
+      responses: 
+        200: 
+          description : Update succesful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        400: 
+          description : Bad request
+  
+ /courses:
+  get:
+    tags:
+    - Courses
+    summary : Get courses
+    description : Get all courses
+    responses:
+        200 :
+          description : Here are all courses
+        400 : 
+          description : Bad request
+  post:
+    tags:
+    - Courses
+    summary : Create new course
+    description : Create new course
+    requestBody :
+      description : Course created
+      content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourse'
+    responses:
+        200:
+          description: List of courses
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Courses'
+        400:
+          description: Bad request
+  put:
+    tags : 
+      - Courses
+    summary : Update course
+    description : Course update
+    requestBody :
+      description : course updated
+      content: 
+          application/json :
+            schema : 
+             $ref : '#/components/schemas/Courses'
+    responses:
+        200 :
+          description : course updated
+        400 :
+          description : Bad request
+ /courses/{id}:
+  get : 
+    tags : 
+      - Courses
+    summary : Get a course 
+    description : Get a course by id
+    parameters :
+      - name : id
+        in : path
+        schema : 
+          type : integer
+        required : true
+    responses : 
+      200 : 
+        description : Here's your course
+      400 : 
+        description : Bad request
+      404 : 
+        description : Entity not found
+  delete : 
+    tags : 
+      - Courses
+    summary : Delete a course
+    description : Delete a course by a id
+    parameters : 
+      - name : id
+        in : path
+        schema :
+          type : integer
+        required : true
+    responses :
+      200 :
+        description : Delete succesfully
+      400 : 
+        description : Bad request
+      404 : 
+        description : Entity not found
+components:
+  schemas:
+    CreateStudent:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Rakoto"
+        birth_date:
+          type: string
+          format: date
+          example: "2022-01-01"
+        address:
+          type: string
+          example: "Ivandry"
+        phoneNumbers:
+          type: array
+          items: 
+            $ref: "#/components/schemas/PhoneNumber"
+
+    PhoneNumber:
+      type: object
+      properties: 
+        country_code:
+          type: string
+        number:
+          type: string
+          
+    Student:
+      allOf:
+        - $ref: '#/components/schemas/CreateStudent'
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+    CreateCourse:
+      type : object
+      properties :
+        name : 
+          type: string
+          example : "EL1P1"
+        teacher :
+          type: string
+          example : "Ryan"
+        createdDate :
+          type : string
+          format : date
+          example : "2022-01-02"
+    Courses :
+      allOf :
+        - $ref: '#/components/schemas/CreateCourse'
+      type : object
+      properties :
+        id:
+          type : integer
+          example : 20
