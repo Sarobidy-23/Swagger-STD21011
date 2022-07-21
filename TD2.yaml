@@ -1,0 +1,396 @@
+openapi: 3.0.1
+info:
+  title: STD21011 API
+  description: 'Global description of my API'
+  version: 1.0.0
+servers:
+ - url: https://cinema.STD21011.com
+tags: 
+ - name: Film
+   
+ - name: Salle
+
+ - name: Projection
+paths:
+ /film:
+    get:
+      tags:
+        - Film
+      operationId: getFilm
+      summary: Get all films
+      description: Get all films with details
+      parameters : 
+        - name : page
+          in : query 
+          schema : 
+             type : integer
+      responses:
+        200: 
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Film'
+        400:
+          description: Bad request
+    post: 
+      tags:
+        - Film
+      operationId: insertFilm
+      summary : add new film
+      description: add new film
+      requestBody:
+        description: Film to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      responses:
+        201:
+          description: Film added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        400:
+          description: Bad request
+    put :
+      tags :
+       - Film
+      summary : Update the information of the film
+      description: update the information
+      requestBody:
+        description : Film updated 
+        content : 
+          application/json :
+            schema :
+               $ref: '#/components/schemas/Film'
+        required: true
+      responses: 
+        202: 
+          description : Update succesful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        400: 
+          description : Bad request           
+      
+      
+ /film/{titre}: 
+    get:
+      tags:
+        - Film
+      summary: Get a film by titre
+      operationId: getFilms
+      description: Get a film by titre with details
+      parameters :
+      - name : titre
+        in : path
+        schema :
+          type : string
+        required: true
+      responses:
+        200: 
+          description : Here's your film that you choose
+          content: 
+            application/json:
+                schema :
+                  type : array
+                  items :
+                    $ref: '#/components/schemas/Film'
+        400 : 
+          description: Bad request
+        404 : 
+          description : Entity not found
+    delete :
+      tags :
+      - Film
+      summary : Delete a film
+      operationId: delete
+      description : Delete a film by titre
+      parameters :
+      - name : titre
+        in : path
+        schema :
+          type : string
+        required: true
+      responses :
+        200 : 
+          description : Delete succesfully
+        400 : 
+          description : Bad request
+        404 : 
+          description : Entity not found
+    patch: 
+      tags: 
+        -  Film
+      summary: Update information
+      operationId: patchFilm
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Film"
+            examples: 
+              changeResumé: 
+                summary: Change resume
+                description: How to change resume and what it does
+                value: 
+                  titre: "Thor love and thunder"
+                  resumé: "New resumé for thor love and thunder ..."
+              
+      responses: 
+        200: 
+          description : Update succesful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        400: 
+          description : Bad request
+  
+ /salle:
+  get:
+    tags:
+    - Salle
+    summary : Get salle
+    description : Get all salle
+    responses:
+        200 :
+          description : Here are all salle
+          content: 
+            application/json:
+                schema :
+                  type : array
+                  items :
+                    $ref: '#/components/schemas/Salle'
+        400 : 
+          description : Bad request
+  post:
+    tags:
+    - Salle
+    summary : Create new salle
+    description : Create new salle
+    requestBody :
+      description : Salle created
+      content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Salle'
+    responses: 
+        200:
+          description: Salle
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Salle'
+        400:
+          description: Bad request
+  put:
+    tags : 
+      - Salle
+    summary : Update salle
+    description : Salle update
+    requestBody :
+      description : salle updated
+      content: 
+          application/json :
+            schema : 
+             $ref : '#/components/schemas/Salle'
+      required: true
+    responses:
+        200 :
+          description : salle updated
+        400 :
+          description : Bad request
+ /salle/{numero}:
+  get : 
+    tags : 
+      - Salle
+    summary : Get a salle
+    description : Get a salle by numero
+    parameters :
+    - name : numero
+      in : path
+      schema : 
+        type : integer
+      required : true
+    responses : 
+      200 : 
+        description : Here's your salle
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Salle"
+      400 : 
+        description : Bad request
+      404 : 
+        description : Entity not found
+  delete : 
+    tags : 
+      - Salle
+    summary : Delete a salle
+    description : Delete a salle by a numero
+    parameters : 
+      - name : numero
+        in : path
+        schema :
+          type : integer
+        required : true
+    responses :
+      200 :
+        description : Delete succesfully
+      400 : 
+        description : Bad request
+      404 : 
+        description : Entity not found
+ /projection:
+  get: 
+    tags: 
+      -  Projection
+    operationId: getProjection
+    summary : get all projection
+    description: get all projection
+    responses: 
+      200: 
+        description: Here's all projection
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Projection"
+      400:
+        description: bad request
+  post: 
+    tags: 
+      -  Projection
+    summary: Create new projection
+    requestBody:
+      description: projection to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Projection'
+      required: true 
+    responses: 
+      200: 
+        description: Here's all projection
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Projection"
+      400:
+        description: bad request
+  put:
+    tags : 
+      - Projection
+    summary : Update sprojection
+    description : Projection update
+    requestBody :
+      description : salle updated
+      content: 
+          application/json :
+            schema : 
+              $ref : '#/components/schemas/Projection'
+      required: true
+    responses:
+        200 :
+          description : salle updated
+        400 :
+          description : Bad request
+  patch: 
+    tags: 
+      -  Projection
+    summary: Update information
+    operationId: patchProjection
+    requestBody: 
+      content: 
+        application/json: 
+          schema: 
+            $ref: "#/components/schemas/Projection"
+          examples: 
+            changeDate: 
+              summary: Change Date
+              description: How to change date and what it does
+              value: 
+                salle: [{"numero": 1}]
+                film: [{"titre": "Thor love and thunder"}]
+                date: "16 juillet 2022"           
+    responses: 
+      200: 
+        description : Update succesful
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Projection'
+      400: 
+        description : Bad request
+  delete : 
+    tags : 
+      - Projection
+    summary : Delete a projection
+    description : Delete a projection by a numero
+    parameters : 
+      - name : numero
+        in : query
+        schema: 
+          $ref: "#/components/schemas/Projection"
+        required : true
+    responses :
+      200 :
+        description : Delete succesfully
+      400 : 
+        description : Bad request
+      404 : 
+        description : Entity not found
+  
+components:
+  schemas:
+    Projection:
+      type: object
+      properties: 
+        salle:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Salle"
+        film:
+          type: array
+          items: 
+            $ref: "#/components/schemas/Film"
+        date:
+          type: string
+          example: "15 juillet 2022"
+        heure:
+          type: string
+          example: "19h00"
+    Film:
+      type: object
+      properties: 
+        titre:
+          type: string
+          example: "Thor love and thunder"
+        durée:
+          type: string
+          example: "2h30"
+        dateSortie:
+          type: string
+          example: "13 juillet 2022"
+        realisateur:
+          type: string
+          example: "Marvel studios"
+        resumé:
+          type: string
+          example: "L'histoire de Thor, le roi d'argard ..."
+            
+    Salle:
+      type: object
+      properties:
+        numero:
+          type: number
+          example: 1
+        capacité:
+          type: number
+          example: 200
