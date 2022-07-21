@@ -130,6 +130,12 @@ paths:
         -  Film
       summary: Update information
       operationId: patchFilm
+      parameters :
+      - name : titre
+        in : path
+        schema :
+          type : string
+        required: true
       requestBody: 
         content: 
           application/json: 
