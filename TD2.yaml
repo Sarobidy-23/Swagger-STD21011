@@ -133,6 +133,12 @@ paths:
         -  Movie
       summary: Update information
       operationId: patchMovie
+      parameters: 
+      - name : title
+        in : path
+        schema :
+          type : string
+        required: true  
       requestBody: 
         content: 
           application/json: 
