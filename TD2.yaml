@@ -588,7 +588,7 @@ components:
       type: object
       properties: 
         Category:
-          type: array
+          type: string
           example: 
             name: ["action","comédie",...]
         
