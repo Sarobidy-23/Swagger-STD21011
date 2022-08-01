@@ -396,6 +396,35 @@ paths:
         400:
           description: Bad request
           content: {}
+  /Projections/WeekDate:
+    get:
+      tags:
+        - Projections
+      summary: Lists of projections in a week by date
+      operationId: calendar
+      parameters:
+        - name: WeekDate
+          in: query
+          required: true
+          schema:
+            type: string
+          examples:
+            changeMovie:
+              summary: WeekDate
+              value:
+                Date: "2022-08-01"
+      responses:
+        200:
+          description: List of Movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeekProjections"
+        400:
+          description: Bad request
+          content: {}
           
 components:
   schemas:
@@ -464,6 +493,11 @@ components:
           $ref: "#/components/schemas/Movie"
         room:
           $ref: "#/components/schemas/Room"
+    WeekProjections:
+      oneOf: 
+        -  $ref: "#/components/schemas/Projection"
+        -  $ref: "#/components/schemas/Projection"
+        -  $ref: "#/components/schemas/Projection"
     NewCategories:
       type: object
       properties:
