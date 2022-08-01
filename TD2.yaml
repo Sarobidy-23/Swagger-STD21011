@@ -477,7 +477,6 @@ components:
             - B
         diffusion:
           type: string
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([8-19]{1}):([0-59]{1})/
           example: "2022-08-01 19:30"
     Projection:
       type: object
@@ -487,7 +486,6 @@ components:
           example: "1"
         diffusion:
           type: string
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2}) ([8-19]{1}):([0-59]{1})/
           example: "2022-08-01 19:30"
         Movie:
           $ref: "#/components/schemas/Movie"
